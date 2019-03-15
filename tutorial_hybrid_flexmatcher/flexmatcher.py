@@ -321,6 +321,7 @@ from sklearn import linear_model
 import numpy as np
 
 
+# DO NOT USE
 class CharDistClassifier(Classifier):
 
     """Classify the data-point using counts of character types in the data.
@@ -442,7 +443,7 @@ from sklearn.model_selection import StratifiedKFold
 import numpy as np
 import Levenshtein as lev
 
-
+# NEED MODIFY
 class KNNClassifier(Classifier):
 
     """Classify data-points (in string format) using their 3 nearest neighbors
@@ -531,6 +532,7 @@ from sklearn import linear_model
 import numpy as np
 
 
+# NEED MODIFY
 class NGramClassifier(Classifier):
 
     """Classify data-points using counts of n-gram sequence of words or chars.
