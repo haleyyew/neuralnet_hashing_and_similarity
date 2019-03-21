@@ -8,9 +8,9 @@ from operator import itemgetter
 from mutagen.id3 import ID3NoHeaderError
 from mutagen.id3 import ID3, TIT2, TALB, TPE1, TPE2, COMM, TCOM, TCON, TDRC, TRCK
 
-root_dir = "/Users/haoran/Downloads/浜崎あゆみ - A BALLADS/"
-album_name = u"Ultimate Piano Concertos The Essential Masterpieces (CDs 1-2)"
-artist = u"Decca"
+root_dir = "/Users/haoran/Downloads/久保田早紀/夢がたり/"
+album_name = u"異邦人 -シルクロードのテーマ-"
+artist = u"久保田早紀"
 track_number = 1
 # print(album_name, artist)
 fname_list = []
@@ -31,8 +31,8 @@ for fname in fname_list:
 
   track_num = str(track_number)
   # tags["TIT2"] = TIT2(encoding=3, text=title)
-  # tags["TALB"] = TALB(encoding=3, text=album_name)
-  # tags["TPE1"] = TPE1(encoding=3, text=artist)
+  tags["TALB"] = TALB(encoding=3, text=album_name)
+  tags["TPE1"] = TPE1(encoding=3, text=artist)
   tags["TRCK"] = TRCK(encoding=3, text=track_num)
 
   tags.save(fname)

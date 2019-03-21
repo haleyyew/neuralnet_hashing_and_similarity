@@ -6,8 +6,8 @@ import sys
 import os
 from operator import itemgetter
 
-root_dir = "/Users/haoran/Google Drive/GoogleMusic/"
-pic_root_dir = "/Users/haoran/Google Drive/music_album_cover/"
+root_dir = "/Users/haoran/Downloads/久保田早紀/夢がたり/"
+pic_root_dir = "/Users/haoran/Downloads/"
 for root, dirs, files in os.walk(root_dir):
     path = root.split(os.sep)
     for file in files:
