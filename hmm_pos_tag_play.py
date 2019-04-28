@@ -183,3 +183,5 @@ for key in data.testing_set.keys[:2]:
     print("Actual labels:\n--------------")
     print(data.sentences[key].tags)
     print("\n")
+
+# hmm get all nouns
