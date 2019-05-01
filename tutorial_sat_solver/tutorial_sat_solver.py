@@ -69,5 +69,61 @@ def main():
   print('y = ', y.solution_value())
   # The objective value of the solution.
   print('Optimal objective value =', opt_solution)
+
+def main1(variable_list, constraint_list):
+  solver = pywraplp.Solver('LinearExample',
+                           pywraplp.Solver.GLOP_LINEAR_PROGRAMMING)
+
+  numvar_list = []
+  for var in variable_list:
+    numvar = solver.NumVar(0.0, 1.0, var[0])
+    numvar_list.append(numvar)
+
+  constraint1 = solver.Constraint(1.0, 1.0)
+  for numvar in numvar_list:
+    constraint1.SetCoefficient(numvar, 1)
+
+  solver_constraints = [constraint1]
+  for cons in constraint_list:
+    solver_constraint = solver.Constraint(cons[0], cons[0])
+    cons_name = cons[1]
+    for i in range(len(variable_list)):
+      var = variable_list[i]
+      if cons_name in var[1]:
+        solver_constraint.SetCoefficient(numvar_list[i], 1)
+    solver_constraints.append(solver_constraint)
+
+  print(numvar_list)
+  print(solver_constraints)
+
+  objective = solver.Objective()
+  for i in range(len(variable_list)):
+    var = variable_list[i]
+    objective.SetCoefficient(numvar_list[i], len(var[1]))
+  objective.SetMaximization()
+
+  solver.Solve()
+
+  print('Solution:')
+  for i in range(len(variable_list)):
+    var = variable_list[i]
+    print(var[0]+' = ', numvar_list[i].solution_value())
+
+  return
+
 if __name__ == '__main__':
-  main()
+  # python 3.6
+
+  p1 = ('p1', ["(A,A')", "(B,B')"]) # (A,A'), (B,B')
+  p2 = ('p2', ["(A,A')"])           # (A,A')
+  p3 = ('p3', ["(B,B')"])           # (B,B')
+  p4 = ('p4', [])                   # empty
+
+  c1 = (0.6, "(A,A')") # p(A,A') = 0.6
+  c2 = (0.5, "(B,B')") # p(B,B') = 0.5
+
+  variable_list = [p1,p2,p3,p4]
+  constraint_list = [c1,c2]
+
+  # main()
+  main1(variable_list, constraint_list)
