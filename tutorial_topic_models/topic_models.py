@@ -142,5 +142,5 @@ def example():
     print(svd_doc.head())
     print(svd_word.head())
 
-# example()
+example()
 # lda across all attrs, one doc is one attr

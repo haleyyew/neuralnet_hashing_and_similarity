@@ -61,8 +61,14 @@ print(8, most_similar)
 not_matching = model.wv.doesnt_match("human computer interface tree".split())
 print(9, not_matching)
 
-sim_score = model.wv.similarity('computer', 'human')
+sim_score = model.wv.similarity('reading book', 'library store')
 print(10, sim_score)
+
+try:
+    sim_score = model.wv.similarity('reading book', 'library store')
+except Exception:
+    # words do not appear together for the 1st or 2nd sequence
+    pass
 
 # # Correlation with human opinion on word similarity:
 # from gensim.test.utils import datapath
@@ -70,3 +76,5 @@ print(10, sim_score)
 #
 # # And on word analogies:
 # analogies_result = model.wv.evaluate_word_analogies(datapath('questions-words.txt'))
+
+# python 3.7

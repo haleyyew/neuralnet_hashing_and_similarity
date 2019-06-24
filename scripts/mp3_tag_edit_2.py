@@ -10,7 +10,7 @@ from mutagen.id3 import ID3, TIT2, TALB, TPE1, TPE2, COMM, TCOM, TCON, TDRC, TRC
 import re
 import pprint
 
-root_dir = "/Users/haoran/Downloads/"
+root_dir = "/Users/haoran/Downloads/untitled folder/"
 directories = {}
 
 for root, dirs, files in os.walk(root_dir):
@@ -45,7 +45,7 @@ for root, dirs, files in os.walk(root_dir):
         if year != None:
             tags["DATE"] = TRCK(encoding=3, text=year)
 
-        # tags.save(fname)
+        tags.save(fname)
         # print(fname.split('/')[-1], album_name, artist, year)
 
 
@@ -68,8 +68,8 @@ for direc in directories:
         track_num = str(track_number)    
         tags["TRCK"] = TRCK(encoding=3, text=track_num)
 
-        # tags.save(fname)
-        # print(fname, track_num)
+        tags.save(fname)
+        print(fname, track_num)
         track_number += 1
 
 
@@ -80,6 +80,7 @@ for direc in directories:
     if len(directory) == 0: continue
 
     pic_file = direc + '/folder.jpg'
+    if not os.path.exists(pic_file): continue
     try:
         imagedata = open(pic_file, 'rb').read()
     except Exception:

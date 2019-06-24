@@ -168,5 +168,6 @@ def example_nlp():
     else:
         same_domain = True
 
-example_set()
-# example_nlp()
+if __name__ == '__main__':
+    example_set()
+    # example_nlp()
