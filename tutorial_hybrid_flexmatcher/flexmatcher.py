@@ -23,6 +23,9 @@ import time
 
 import re
 
+# TODO folds=5 changed to 2, which is min of column len of all sets<== 
+# TODO add more matchers
+
 def columnAnalyzer(text):
     features = []
     words = re.findall('([a-z][a-z1-9]*|[1-9]+|[A-Z](?:[a-z1-9]+|[A-Z1-9]+))', text)
@@ -93,7 +96,8 @@ class FlexMatcher:
         self.classifier_type = ['value', 'value', 'value', 'value',
                                 'value', 'value', 'value']
         # training sources
-        if self.data_src_num > 5:
+        # if self.data_src_num > 5:
+        if self.data_src_num > 2:
             col_char_dist_clf = CharDistClassifier()
             col_trichar_count_clf = NGramClassifier(analyzer='char_wb',
                                                         ngram_range=(3, 3))
@@ -130,10 +134,14 @@ class FlexMatcher:
             sampled_rows = datafr.sample(min(sample_size, datafr.shape[0]))
             sampled_data = pd.melt(sampled_rows)
             sampled_data.columns = ['name', 'value']
+            # print(mapping)
+            # print('==',sampled_data)
             sampled_data['class'] = \
                 sampled_data.apply(lambda row: mapping[row['name']], axis=1)
             train_data_list.append(sampled_data)
             col_data = pd.DataFrame(datafr.columns)
+            # print('=====',col_data)
+
             col_data.columns = ['name']
             col_data['value'] = col_data['name']
             col_data['class'] = \
@@ -224,6 +232,7 @@ class FlexMatcher:
         self.weights = np.concatenate(tuple(coeff_list))
         print('self.weights:')
         from pprint import pprint
+        print('=====WEIGHTS=====')
         pprint(self.weights)
 
     def make_prediction(self, data):
@@ -374,15 +383,28 @@ class CharDistClassifier(Classifier):
         # training the classifier
         self.clf.fit(self.features, self.labels)
 
-    def predict_training(self, folds=5):
+    def predict_training(self, folds=2):
         """Do cross-validation and return probabilities for each data-point.
 
         Args:
             folds (int): Number of folds used for prediction on training data.
         """
+        print('-----------')
+        print(self.features, self.labels)
+
+
         partial_clf = linear_model.LogisticRegression(class_weight='balanced')
         prediction = np.zeros((len(self.features), self.num_classes))
         skf = StratifiedKFold(n_splits=folds)
+
+        # try:
+        #     for train_index, test_index in skf.split(self.features, self.labels):
+        #         pass
+        # except Exception:
+        #     print('-------------')
+        #     self.features = self.features + self.features
+        #     self.labels = self.labels + self.labels
+
         for train_index, test_index in skf.split(self.features, self.labels):
             # prepare the training and test data
             training_features = self.features[train_index]
@@ -472,7 +494,7 @@ class KNNClassifier(Classifier):
         self.column_index = dict(zip(sorted(list(data['class'].unique())),
                                      range(self.num_classes)))
 
-    def predict_training(self, folds=5):
+    def predict_training(self, folds=2):
         """Do cross-validation and return probabilities for each data-point.
 
         Args:
@@ -589,7 +611,7 @@ class NGramClassifier(Classifier):
         self.lrm = linear_model.LogisticRegression(class_weight='balanced')
         self.lrm.fit(self.features, self.labels)
 
-    def predict_training(self, folds=5):
+    def predict_training(self, folds=2):
         """Do cross-validation and return probabilities for each data-point.
 
         Args:
