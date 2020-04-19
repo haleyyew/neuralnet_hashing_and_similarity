@@ -19,7 +19,7 @@ parser.add_argument("-nn", "--skip_titles", dest="skip_titles", type=int, choice
 args = parser.parse_args()
 # print(args.skip_track_listing)
 
-root_dir = "/Users/haoran/Google Drive/untitled folder/"
+root_dir = "/Users/haoran/Downloads/untitled folder/"
 directories = {}
 
 for root, dirs, files in os.walk(root_dir):
